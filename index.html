@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-lang-key="page_title">Potências de 3</title>
+
+    <!-- 1. Configuração do Tailwind para suportar Dark Mode via classe -->
+    <script>
+        tailwind = {
+            config: {
+                darkMode: 'class'
+            }
+        }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+
+    <!-- 2. Estilos do Header (Inlined para portabilidade neste demo) -->
+    <style>
+        /* --- INÍCIO header.css --- */
+        :root {
+            --uh-bg: #ffffff;
+            --uh-bg-hover: #f3f4f6;
+            --uh-text: #1f2937;
+            --uh-text-muted: #6b7280;
+            --uh-border: #e5e7eb;
+            --uh-primary: #059669; /* Ajustado para combinar com o Emerald do site */
+            --uh-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --uh-dropdown-bg: #ffffff;
+        }
+        body.dark {
+            --uh-bg: #0f172a; /* slate-900 */
+            --uh-bg-hover: #1e293b; /* slate-800 */
+            --uh-text: #e2e8f0; /* slate-200 */
+            --uh-text-muted: #94a3b8; /* slate-400 */
+            --uh-border: #334155; /* slate-700 */
+            --uh-primary: #34d399; /* emerald-400 */
+            --uh-dropdown-bg: #1e293b; /* slate-800 */
+        }
+        .uh-header * { box-sizing: border-box; margin: 0; padding: 0; }
+        .uh-header {
+            background-color: var(--uh-bg);
+            border-bottom: 1px solid var(--uh-border);
+            color: var(--uh-text);
+            padding: 0.75rem 1.5rem;
+            position: sticky; top: 0; z-index: 50;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+        .uh-container { display: flex; align-items: center; justify-content: space-between; max-width: 1280px; margin: 0 auto; }
+        .uh-left-section, .uh-right-section { display: flex; align-items: center; gap: 0.75rem; }
+        .uh-lang-switch { display: flex; background-color: var(--uh-bg-hover); padding: 0.25rem; border-radius: 0.5rem; border: 1px solid var(--uh-border); }
+        .uh-lang-switch button { background: none; border: none; padding: 0.375rem 0.75rem; font-size: 0.875rem; font-weight: 600; color: var(--uh-text-muted); border-radius: 0.375rem; cursor: pointer; transition: all 0.2s ease; }
+        .uh-lang-switch button.active { background-color: var(--uh-bg); color: var(--uh-primary); box-shadow: var(--uh-shadow); }
+        .uh-icon-btn { display: flex; align-items: center; justify-content: center; background: none; border: 1px solid var(--uh-border); color: var(--uh-text); padding: 0.5rem; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s ease; width: 40px; height: 40px; }
+        .uh-icon-btn:hover { background-color: var(--uh-bg-hover); }
+        .uh-waffle-container { position: relative; }
+        .uh-dropdown { position: absolute; top: calc(100% + 0.5rem); right: 0; width: 220px; background-color: var(--uh-dropdown-bg); border: 1px solid var(--uh-border); border-radius: 0.75rem; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); padding: 0.5rem; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.2s ease-in-out; }
+        .uh-dropdown.open { opacity: 1; visibility: visible; transform: translateY(0); }
+        .uh-dropdown-nav { display: flex; flex-direction: column; gap: 0.25rem; }
+        .uh-dropdown-item { display: block; padding: 0.625rem 1rem; text-decoration: none; color: var(--uh-text); font-size: 0.9375rem; border-radius: 0.5rem; transition: background-color 0.2s; }
+        .uh-dropdown-item:hover, .uh-dropdown-item:focus { background-color: var(--uh-bg-hover); outline: none; color: var(--uh-primary); }
+        /* --- FIM header.css --- */
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-mono {
+            font-family: 'Fira Code', monospace;
+        }
+    </style>
+</head>
+<!-- Adicionado suporte a cores claras e escuras via classes Tailwind dark: -->
+<body class="bg-gray-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200 min-h-screen transition-colors duration-300">
+
+<!-- 3. Estrutura HTML do Header -->
+<header id="uh-header" class="uh-header mb-8 md:mb-12 shadow-sm dark:shadow-none">
+    <div class="uh-container">
+        <div class="uh-left-section">
+            <div class="uh-lang-switch" role="group" aria-label="Language selector">
+                <button type="button" data-lang-opt="en" aria-pressed="false">EN</button>
+                <button type="button" data-lang-opt="pt" aria-pressed="false">PT</button>
+            </div>
+        </div>
+        <div class="uh-right-section">
+            <div class="uh-waffle-container">
+                <button type="button" id="uh-waffle-btn" class="uh-icon-btn" aria-label="Menu" aria-haspopup="true" aria-expanded="false" aria-controls="uh-waffle-dropdown">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                </button>
+                <div id="uh-waffle-dropdown" class="uh-dropdown" role="menu" hidden>
+                    <nav class="uh-dropdown-nav" aria-label="Main navigation"></nav>
+                </div>
+            </div>
+            <a id="uh-github-link" href="#" target="_blank" rel="noopener" class="uh-icon-btn" aria-label="GitHub">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 15.13V19"></path></svg>
+            </a>
+            <button type="button" id="uh-theme-toggle" class="uh-icon-btn" aria-label="Toggle Theme">
+                <svg class="uh-moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                <svg class="uh-sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div class="max-w-5xl mx-auto px-4 md:px-8 pb-12">
+    <header class="mb-8 text-center md:text-left">
+        <!-- Atualizado para usar data-lang-key -->
+        <h1 class="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-2" data-lang-key="main_title">Potências de 3</h1>
+        <p class="text-slate-600 dark:text-slate-400 text-lg">
+            <span data-lang-key="description_start">Sequência completa de</span>
+            <span class="font-mono text-emerald-600 dark:text-emerald-400 font-medium">3⁰</span>
+            <span data-lang-key="description_to">até</span>
+            <span class="font-mono text-emerald-600 dark:text-emerald-400 font-medium">3¹⁰⁰</span>.
+        </p>
+    </header>
+
+    <div class="bg-white dark:bg-slate-800 rounded-xl shadow-xl dark:shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700 transition-colors duration-300">
+        <!-- Table Header -->
+        <div class="hidden md:grid grid-cols-12 bg-slate-100 dark:bg-slate-950/50 p-4 text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-700 transition-colors duration-300">
+            <div class="col-span-2" data-lang-key="col_exponent">Expoente (n)</div>
+            <div class="col-span-2" data-lang-key="col_notation">Notação</div>
+            <div class="col-span-8" data-lang-key="col_result">Resultado</div>
+        </div>
+
+        <!-- List Container -->
+        <div id="powers-container" class="divide-y divide-slate-200 dark:divide-slate-700/50 transition-colors duration-300">
+            <!-- Javascript will populate this -->
+        </div>
+    </div>
+
+    <footer class="mt-8 text-center text-slate-500 dark:text-slate-500 text-sm" data-lang-key="footer_note">
+        Calculado com precisão arbitrária usando BigInt.
+    </footer>
+</div>
+
+<!-- 4. JS do Header (Inlined e ligeiramente adaptado para callbacks) -->
+<script>
+    (function(window, document) {
+        'use strict';
+        let state = { lang: 'pt', theme: 'dark', isMenuOpen: false, translations: {}, onLanguageChange: null };
+        let els = {};
+
+        function setLanguage(lang) {
+            if (lang !== 'en' && lang !== 'pt') return;
+            state.lang = lang;
+            document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en-US';
+            if (els.langBtns) {
+                els.langBtns.forEach(btn => {
+                    const isActive = btn.dataset.langOpt === lang;
+                    btn.classList.toggle('active', isActive);
+                    btn.setAttribute('aria-pressed', isActive);
+                });
+            }
+            try {
+                const url = new URL(window.location);
+                url.searchParams.set('lang', lang === 'pt' ? 'pt-br' : 'en-us');
+                window.history.replaceState({}, '', url);
+            } catch(e) {}
+
+            applyTranslations();
+            try { localStorage.setItem('uh-lang', lang); } catch (e) {}
+            if (typeof state.onLanguageChange === 'function') state.onLanguageChange(lang);
+        }
+
+        function applyTranslations() {
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.dataset.langKey;
+                const translation = state.translations[key]?.[state.lang];
+                if (translation) {
+                    el.dataset.htmlContent === 'true' ? el.innerHTML = translation : el.textContent = translation;
+                }
+            });
+        }
+
+        function setTheme(theme) {
+            state.theme = theme;
+            const isDark = theme === 'dark';
+            document.body.classList.toggle('dark', isDark); // Tailwind usa essa classe
+            if (els.moonIcon && els.sunIcon) {
+                els.moonIcon.style.display = isDark ? 'none' : 'block';
+                els.sunIcon.style.display = isDark ? 'block' : 'none';
+            }
+            try { localStorage.setItem('uh-theme', theme); } catch (e) {}
+        }
+
+        function toggleMenu() { state.isMenuOpen ? closeMenu() : openMenu(); }
+        function openMenu() {
+            state.isMenuOpen = true; els.dropdown.hidden = false;
+            requestAnimationFrame(() => { els.dropdown.classList.add('open'); els.waffleBtn.setAttribute('aria-expanded', 'true'); });
+            document.addEventListener('click', handleOutsideClick);
+        }
+        function closeMenu() {
+            state.isMenuOpen = false; els.dropdown.classList.remove('open'); els.waffleBtn.setAttribute('aria-expanded', 'false');
+            els.dropdown.addEventListener('transitionend', () => { if (!state.isMenuOpen) els.dropdown.hidden = true; }, { once: true });
+            document.removeEventListener('click', handleOutsideClick);
+        }
+        function handleOutsideClick(e) { if (!els.waffleContainer.contains(e.target)) closeMenu(); }
+
+        window.initHeader = function(options = {}) {
+            els = {
+                header: document.getElementById('uh-header'),
+                langBtns: document.querySelectorAll('[data-lang-opt]'),
+                waffleBtn: document.getElementById('uh-waffle-btn'),
+                dropdown: document.getElementById('uh-waffle-dropdown'),
+                dropdownNav: document.querySelector('.uh-dropdown-nav'),
+                waffleContainer: document.querySelector('.uh-waffle-container'),
+                themeToggle: document.getElementById('uh-theme-toggle'),
+                githubLink: document.getElementById('uh-github-link'),
+                moonIcon: document.querySelector('.uh-moon-icon'),
+                sunIcon: document.querySelector('.uh-sun-icon')
+            };
+            if (!els.header) return;
+
+            state.translations = options.translations || {};
+            state.onLanguageChange = options.onLanguageChange;
+
+            if (options.links) {
+                els.dropdownNav.innerHTML = '';
+                options.links.forEach(link => {
+                    const a = document.createElement('a');
+                    a.href = link.href; a.className = 'uh-dropdown-item'; a.setAttribute('role', 'menuitem');
+                    a.textContent = link.labelEn; // Simplificado para este demo, idealmente usaria data-labels
+                    els.dropdownNav.appendChild(a);
+                });
+            }
+            if (options.githubUrl && els.githubLink) els.githubLink.href = options.githubUrl;
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlLang = urlParams.get('lang')?.toLowerCase().substring(0, 2);
+            const initialLang = (urlLang === 'en' || urlLang === 'pt') ? urlLang : options.defaultLang || 'pt';
+
+            // Preferência de tema salva ou padrão 'dark' para combinar com o design original
+            const localTheme = localStorage.getItem('uh-theme');
+            const initialTheme = (localTheme === 'dark' || localTheme === 'light') ? localTheme : 'dark';
+
+            setLanguage(initialLang);
+            setTheme(initialTheme);
+
+            els.langBtns.forEach(btn => btn.addEventListener('click', () => setLanguage(btn.dataset.langOpt)));
+            els.themeToggle.addEventListener('click', () => setTheme(state.theme === 'light' ? 'dark' : 'light'));
+            els.waffleBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMenu(); });
+        };
+    })(window, document);
+</script>
+
+<!-- 5. Lógica da Aplicação -->
+<script>
+    // Traduções reestruturadas para o formato chave: { pt, en }
+    const appTranslations = {
+        page_title: { pt: "Potências de 3", en: "Powers of 3" },
+        main_title: { pt: "Potências de 3", en: "Powers of 3" },
+        description_start: { pt: "Sequência completa de", en: "Complete sequence from" },
+        description_to: { pt: "até", en: "to" },
+        col_exponent: { pt: "Expoente (n)", en: "Exponent (n)" },
+        col_notation: { pt: "Notação", en: "Notation" },
+        col_result: { pt: "Resultado", en: "Result" },
+        footer_note: { pt: "Calculado com precisão arbitrária usando BigInt.", en: "Calculated with arbitrary precision using BigInt." },
+        // Tooltips precisam ser tratados no renderList pois são dinâmicos
+    };
+
+    const tooltipTranslations = {
+        copy_tooltip: { pt: "Copiar número cru", en: "Copy raw number" },
+        copy_aria: { pt: "Copiar resultado de 3 elevado a", en: "Copy result of 3 to the power of" }
+    };
+
+    function renderList(langCode) {
+        const container = document.getElementById('powers-container');
+        container.innerHTML = '';
+        const base = 3n;
+        // Mapeia 'pt'/'en' para locales completos para formatação numérica
+        const locale = langCode === 'pt' ? 'pt-BR' : 'en-US';
+
+        for (let i = 0; i <= 100; i++) {
+            const exponent = BigInt(i);
+            const result = base ** exponent;
+            const formattedResult = result.toLocaleString(locale);
+
+            const row = document.createElement('div');
+            // Classes atualizadas para suportar modo claro/escuro
+            row.className = "grid grid-cols-1 md:grid-cols-12 p-4 gap-2 md:gap-4 hover:bg-slate-100 dark:hover:bg-slate-700/30 transition-colors duration-150 items-center group";
+
+            row.innerHTML = `
+                    <div class="flex items-center md:col-span-2">
+                        <span class="md:hidden text-slate-500 dark:text-slate-500 mr-2 font-mono text-sm">n =</span>
+                        <span class="font-mono text-emerald-600 dark:text-emerald-400 font-semibold">${i}</span>
+                    </div>
+                    <div class="flex items-center md:col-span-2 text-slate-600 dark:text-slate-400">
+                        <span class="font-mono">3<sup>${i}</sup></span>
+                    </div>
+                    <div class="md:col-span-8 relative flex items-center justify-between overflow-hidden">
+                         <div class="font-mono text-sm md:text-base break-all text-slate-700 dark:text-slate-300 pr-10 leading-relaxed">
+                            ${formattedResult}
+                        </div>
+                        <button
+                            onclick="copyToClipboard('${result.toString()}', this)"
+                            class="absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity bg-slate-200 dark:bg-slate-700 p-2 rounded-md hover:bg-emerald-500 dark:hover:bg-emerald-600 text-slate-700 dark:text-white hover:text-white"
+                            title="${tooltipTranslations.copy_tooltip[langCode]}"
+                            aria-label="${tooltipTranslations.copy_aria[langCode]} ${i}"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-copy"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                        </button>
+                    </div>
+                `;
+            container.appendChild(row);
+        }
+    }
+
+    function copyToClipboard(text, buttonElement) {
+        navigator.clipboard.writeText(text).then(() => {
+            const originalHTML = buttonElement.innerHTML;
+            buttonElement.classList.add('bg-emerald-500', 'dark:bg-emerald-600', 'text-white');
+            buttonElement.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>`;
+            setTimeout(() => {
+                buttonElement.innerHTML = originalHTML;
+                buttonElement.classList.remove('bg-emerald-500', 'dark:bg-emerald-600', 'text-white');
+            }, 2000);
+        }).catch(err => console.error('Copy error: ', err));
+    }
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', () => {
+        initHeader({
+            defaultLang: 'pt',
+            translations: appTranslations,
+            githubUrl: 'https://github.com/seu-usuario/powers-of-3', // URL de exemplo
+            links: [
+                { href: '#', labelEn: 'Home', labelPt: 'Início' },
+                { href: '#about', labelEn: 'About', labelPt: 'Sobre' }
+            ],
+            // Callback crucial para re-renderizar a lista quando o idioma muda
+            onLanguageChange: (newLang) => {
+                renderList(newLang);
+            }
+        });
+    });
+</script>
+</body>
+</html>
